@@ -1,0 +1,16 @@
+﻿.gct-lang-nav { display: flex; align-items: center; gap: 0.5rem; }
+.gct-lang-nav a {
+  display: inline-flex; align-items: center;
+  height: 38px; padding: 0 0.85rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(0,119,182,0.08) 100%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  color: #fff; font-size: 0.82rem; font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.gct-lang-nav a:hover { border-color: rgba(125,211,252,0.28); background-color: rgba(255,255,255,0.1); }
+.gct-lang-nav a[aria-current="page"] {
+  background: rgba(0,119,182,0.25);
+  border-color: rgba(125,211,252,0.4);
+}
