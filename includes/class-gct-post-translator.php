@@ -100,6 +100,12 @@ class GCT_Post_Translator {
                 }
             }
         }
+        
+        // Update <html> lang attribute
+        $html_nodes = $dom->getElementsByTagName('html');
+        if ($html_nodes->length > 0) {
+            $html_nodes->item(0)->setAttribute('lang', $lang);
+        }
 
         // 3. Save full HTML to post_content
         $final_html = $dom->saveHTML();
