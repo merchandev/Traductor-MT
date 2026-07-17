@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.gct-btn-create').forEach(btn => {
         btn.addEventListener('click', function() {
             let data = new URLSearchParams();

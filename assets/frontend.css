@@ -1,4 +1,4 @@
-﻿.gct-lang-nav { display: flex; align-items: center; gap: 0.5rem; }
+.gct-lang-nav { display: flex; align-items: center; gap: 0.5rem; }
 .gct-lang-nav a {
   display: inline-flex; align-items: center;
   height: 38px; padding: 0 0.85rem;

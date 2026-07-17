@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class GCT_DeepL_Provider implements GCT_Provider_Interface {

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: GCT Translator
  * Plugin URI:  https://github.com/merchandev/gct-translator
