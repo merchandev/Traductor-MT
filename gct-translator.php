@@ -35,6 +35,10 @@ add_action( 'plugins_loaded', function() {
     GCT_Admin::init();
 } );
 
+add_action( 'wp_enqueue_scripts', function() {
+    wp_enqueue_style( 'gct-frontend', GCT_URL . 'assets/frontend.css', [], GCT_VERSION );
+} );
+
 // Public function used by theme header.php
 function gct_render_language_switcher() {
     GCT_Switcher::render();
