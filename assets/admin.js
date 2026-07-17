@@ -23,7 +23,18 @@ document.addEventListener("DOMContentLoaded", function() {
             
             fetch(ajaxurl, { method: 'POST', body: data })
                 .then(r => r.json())
-                .then(res => { if(res.success) location.reload(); });
+                .then(res => { 
+                    if(res.success) {
+                        location.reload(); 
+                    } else {
+                        alert(res.data && res.data.message ? res.data.message : 'Error desconocido al traducir.');
+                        this.textContent = "Traducir con API";
+                    }
+                })
+                .catch(err => {
+                    alert('Error de conexión AJAX.');
+                    this.textContent = "Traducir con API";
+                });
         });
     });
 });

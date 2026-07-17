@@ -35,11 +35,10 @@ class GCT_Post_Translator {
         $source_id = GCT_Post_Relations::get_source($post_id);
         $lang = GCT_Post_Relations::get_language($post_id);
         $source_post = get_post($source_id);
-        
-        if (!$source_post || $lang === 'es') return false;
+        if (!$source_post || $lang === 'es') return 'Post de origen no válido o idioma incorrecto.';
 
         $provider = self::get_provider($provider_slug);
-        if (!$provider || !$provider->is_configured()) return false;
+        if (!$provider || !$provider->is_configured()) return 'El proveedor de API no está configurado (revisa los ajustes y la API Key).';
 
         // STATIC HTML TRANSLATION LOGIC
         // 1. Get the frontend URL of the source post
@@ -47,12 +46,12 @@ class GCT_Post_Translator {
         $response = wp_remote_get($source_url, ['timeout' => 30]);
         
         if (is_wp_error($response)) {
-            return false;
+            return 'Error al obtener el HTML original (wp_remote_get): ' . $response->get_error_message();
         }
 
         $html = wp_remote_retrieve_body($response);
         if (empty($html)) {
-            return false;
+            return 'El HTML devuelto por la página original está vacío. Revisa si hay redirecciones o bloqueos de loopback.';
         }
 
         // 2. Parse DOM

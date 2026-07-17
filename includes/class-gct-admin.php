@@ -102,10 +102,12 @@ class GCT_Admin {
         $post_id = (int) $_POST['post_id'];
         $provider = get_option('gct_api_provider', 'deepl');
         
-        if (GCT_Post_Translator::translate_post($post_id, $provider)) {
+        $result = GCT_Post_Translator::translate_post($post_id, $provider);
+        if ($result === true) {
             wp_send_json_success();
+        } else {
+            wp_send_json_error(['message' => is_string($result) ? $result : 'Error de comunicación o permisos al obtener el HTML original.']);
         }
-        wp_send_json_error();
     }
 
     public static function enqueue_assets() {
