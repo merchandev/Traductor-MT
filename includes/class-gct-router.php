@@ -51,6 +51,14 @@ class GCT_Router {
             
             if ($translated_id && get_post_status($translated_id) === 'publish') {
                 $translated_post = get_post($translated_id);
+
+                // STATIC HTML BYPASS
+                if (get_post_meta($translated_id, '_gct_is_html_translation', true) === 'yes') {
+                    // For static HTML translations, output directly and bypass the theme completely
+                    echo get_post_field('post_content', $translated_id);
+                    exit;
+                }
+
                 $wp_query->queried_object = $translated_post;
                 $wp_query->queried_object_id = $translated_id;
                 $wp_query->post = $translated_post;

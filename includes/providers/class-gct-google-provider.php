@@ -21,26 +21,36 @@ class GCT_Google_Provider implements GCT_Provider_Interface {
     public function translate_batch(array $texts, string $source_lang, string $target_lang): array {
         if (!$this->is_configured() || empty($texts)) return $texts;
 
-        $body = [
-            'q' => $texts,
-            'source' => $source_lang,
-            'target' => $target_lang,
-            'format' => 'html'
-        ];
+        $chunks = array_chunk($texts, 100);
+        $translated_texts = [];
 
-        $response = wp_remote_post($this->api_url . '?key=' . $this->api_key, [
-            'headers' => ['Content-Type' => 'application/json'],
-            'body'    => json_encode($body),
-            'timeout' => 30
-        ]);
+        foreach ($chunks as $chunk) {
+            $body = [
+                'q' => $chunk,
+                'source' => $source_lang,
+                'target' => $target_lang,
+                'format' => 'html'
+            ];
 
-        if (is_wp_error($response)) return $texts;
-        
-        $body = json_decode(wp_remote_retrieve_body($response), true);
-        if (isset($body['data']['translations'])) {
-            return array_column($body['data']['translations'], 'translatedText');
+            $response = wp_remote_post($this->api_url . '?key=' . $this->api_key, [
+                'headers' => ['Content-Type' => 'application/json'],
+                'body'    => json_encode($body),
+                'timeout' => 30
+            ]);
+
+            if (is_wp_error($response)) {
+                $translated_texts = array_merge($translated_texts, $chunk);
+                continue;
+            }
+            
+            $res_body = json_decode(wp_remote_retrieve_body($response), true);
+            if (isset($res_body['data']['translations'])) {
+                $translated_texts = array_merge($translated_texts, array_column($res_body['data']['translations'], 'translatedText'));
+            } else {
+                $translated_texts = array_merge($translated_texts, $chunk);
+            }
         }
         
-        return $texts;
+        return $translated_texts;
     }
 }
